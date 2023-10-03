@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Carouse slider</title>
+    <style>
+        .container {
+            width: 95%;
+            margin: 20px auto;
+
+        }
+
+        .carousel {
+            /* border: 2px solid #ccc; */
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+
+
+        }
+
+        .slider {
+            height: 100%;
+            display: flex;
+            width: 300%;
+            /* border: 1px solid red; */
+            transition: all 0.3s;
+
+
+        }
+
+        .slider section {
+            flex-basis: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .sub-slider-1 {
+            background-image: url(./images/banner-1.jpg);
+        }
+
+        .content {
+            border: 1px solid white;
+            background-color: white;
+            padding: 10px;
+            width: 400px;
+            margin-left: -950px;
+            
+        }
+
+        .content-1 {
+            font-size: 45px;
+        }
+
+        .content-2 {
+            font-weight: bold;
+            color: rgb(0, 0, 183);
+        }
+
+        .sub-slider-2 {
+            background-image: url(./images/banner-2.jpg);
+        }
+
+        .sub-slider-3 {
+            background-image: url(./images/banner-3.jpg);
+        }
+
+        .controls .arrow {
+            position: absolute;
+            top: 50%;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+
+        .controls ul {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .controls ul li {
+            width: 10px;
+            height: 10px;
+            border: 2px solid black;
+            border-radius: 10px;
+            margin: 10px;
+            background-color: rgb(75, 75, 75);
+            cursor: pointer;
+        }
+
+        .controls ul li.selected {
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="carousel">
+            <div class="slider">
+                <section class="sub-slider-1">
+                    <div class="content">
+                        <p class="content-1">
+                            Effortlessly cool, for
+                            the traditionalists of
+                            today
+                        </p>
+                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
+
+
+                    </div>
+                </section>
+                <section class="sub-slider-2">
+                    <div class="content">
+                        <p class="content-1">
+                            Effortlessly cool, for
+                            the traditionalists of
+                            today
+                        </p>
+                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
+
+
+                    </div>
+
+                </section>
+                <section class="sub-slider-3">
+                    <div class="content">
+                        <p class="content-1">
+                            Effortlessly cool, for
+                            the traditionalists of
+                            today
+                        </p>
+                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
+
+
+                    </div>
+
+                </section>
+            </div>
+            <div class="controls">
+                <span class="arrow  left"><i class="fa-solid fa-angle-left fa-xl"></i></span>
+                <span class="arrow right"><i class="fa-solid fa-angle-right fa-xl"></i></span>
+                <ul class="disk">
+                    <li class="selected"> </li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.querySelector('.slider');
+        const leftArrow = document.querySelector('.left');
+        const rightArrow = document.querySelector('.right');
+        const indicatorParents = document.querySelector('.controls ul')
+
+        var sectionIndex = 0;
+
+
+        document.querySelectorAll('.controls li').forEach(function (indicator, ind) {
+            indicator.addEventListener("click", function () {
+                sectionIndex = ind;
+                document.querySelector('.controls .selected').classList.remove('selected');
+                indicator.classList.add("selected")
+                slider.style.transform = 'translate(' + (ind) * -33.44 + '%)';
+
+            })
+        })
+
+        leftArrow.addEventListener('click', function () {
+            sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 0;
+            document.querySelector('.controls .selected').classList.remove('selected');
+            indicatorParents.children[sectionIndex].classList.add('selected');
+            slider.style.transform = 'translate(' + (sectionIndex) * -33.44 + '%)';
+
+        })
+        rightArrow.addEventListener('click', function () {
+            sectionIndex = (sectionIndex < 2) ? sectionIndex + 1 : 2;
+            document.querySelector('.controls .selected').classList.remove('selected');
+            indicatorParents.children[sectionIndex].classList.add('selected');
+            slider.style.transform = 'translate(' + (sectionIndex) * -33.44 + '%)';
+
+        })
+    </script>
+</body>
+
+</html>
