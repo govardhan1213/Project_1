@@ -1,32 +1,41 @@
 const slider = document.querySelector('.slider');
-        const leftArrow = document.querySelector('.left');
-        const rightArrow = document.querySelector('.right');
-        const indicatorParents = document.querySelector('.controls ul')
+const indicatorParents = document.querySelector('.disk');
+let sectionIndex = 0;
+const slideWidth = 100 / 3;
 
-        var sectionIndex = 0;
+function moveToSlide(index) {
+    sectionIndex = index;
+    document.querySelector('.controls .selected').classList.remove('selected');
+    indicatorParents.children[sectionIndex].classList.add('selected');
+    const translateValue = -sectionIndex * slideWidth;
+    slider.style.transform = `translateX(${translateValue}%)`;
+}
 
+function nextSlide() {
+    sectionIndex = (sectionIndex < 2) ? sectionIndex + 1 : 0;
+    moveToSlide(sectionIndex);
+}
 
-        document.querySelectorAll('.controls li').forEach(function (indicator, ind) {
-            indicator.addEventListener("click", function () {
-                sectionIndex = ind;
-                document.querySelector('.controls .selected').classList.remove('selected');
-                indicator.classList.add("selected")
-                slider.style.transform = 'translate(' + (ind) * -32.9 + '%)';
+function prevSlide() {
+    sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 2;
+    moveToSlide(sectionIndex);
+}
 
-            })
-        })
+document.querySelectorAll('.controls li').forEach(function (indicator, ind) {
+    indicator.addEventListener("click", function () {
+        moveToSlide(ind);
+    });
+});
 
-        leftArrow.addEventListener('click', function () {
-            sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 0;
-            document.querySelector('.controls .selected').classList.remove('selected');
-            indicatorParents.children[sectionIndex].classList.add('selected');
-            slider.style.transform = 'translate(' + (sectionIndex) * -32.9 + '%)';
+setInterval(nextSlide, 3000);
 
-        })
-        rightArrow.addEventListener('click', function () {
-            sectionIndex = (sectionIndex < 2) ? sectionIndex + 1 : 2;
-            document.querySelector('.controls .selected').classList.remove('selected');
-            indicatorParents.children[sectionIndex].classList.add('selected');
-            slider.style.transform = 'translate(' + (sectionIndex) * -32.9 + '%)';
+const leftArrow = document.querySelector('.left');
+const rightArrow = document.querySelector('.right');
 
-        })
+leftArrow.addEventListener('click', function () {
+    prevSlide();
+});
+
+rightArrow.addEventListener('click', function () {
+    nextSlide();
+});

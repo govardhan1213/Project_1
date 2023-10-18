@@ -10,14 +10,16 @@
     <title>Carouse slider</title>
     <style>
         .container {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
             width: 95%;
             margin: 20px auto;
 
         }
 
         .carousel {
-            /* border: 2px solid #ccc; */
-            height: 500px;
+            height: 600px;
             position: relative;
             overflow: hidden;
 
@@ -28,8 +30,8 @@
             height: 100%;
             display: flex;
             width: 300%;
-            /* border: 1px solid red; */
             transition: all 0.3s;
+            transition: transform 0.3s;
 
 
         }
@@ -37,22 +39,21 @@
         .slider section {
             flex-basis: 100%;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
+            background-size: cover;
+            background-position: center;
 
         }
 
-        .sub-slider-1 {
-            background-image: url(./images/banner-1.jpg);
-        }
 
         .content {
             border: 1px solid white;
             background-color: white;
             padding: 10px;
             width: 400px;
-            margin-left: -950px;
-            
+            margin-left: 50px;
+
         }
 
         .content-1 {
@@ -64,12 +65,20 @@
             color: rgb(0, 0, 183);
         }
 
+        .sub-slider-1 {
+            background-image: url(./images/banner-1.jpg);
+            background-size: cover;
+
+        }
+
         .sub-slider-2 {
             background-image: url(./images/banner-2.jpg);
+            background-size: cover;
         }
 
         .sub-slider-3 {
             background-image: url(./images/banner-3.jpg);
+            background-size: cover;
         }
 
         .controls .arrow {
@@ -91,7 +100,7 @@
             position: absolute;
             bottom: 20px;
             left: 50%;
-            transform: translate(-50%);
+            transform: translateX(-50%);
             list-style: none;
             display: flex;
             justify-content: center;
@@ -103,15 +112,36 @@
         .controls ul li {
             width: 10px;
             height: 10px;
-            border: 2px solid black;
+            /* border: 2px solid black; */
             border-radius: 10px;
             margin: 10px;
-            background-color: rgb(75, 75, 75);
+            background-color: rgb(255, 253, 253);
             cursor: pointer;
         }
 
         .controls ul li.selected {
-            background: transparent;
+            background-color: blue;
+            transform: scale(1.2);
+            box-shadow: rgba(34, 8, 0) 10px 5px 15px;
+
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+
+            }
+
+            .slider section {
+                background-size: contain;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 85%;
+
+            }
         }
     </style>
 </head>
@@ -127,9 +157,7 @@
                             the traditionalists of
                             today
                         </p>
-                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
-
-
+                        <span class="content-2">EXPLORE COLLECTION</span>
                     </div>
                 </section>
                 <section class="sub-slider-2">
@@ -139,11 +167,8 @@
                             the traditionalists of
                             today
                         </p>
-                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
-
-
+                        <span class="content-2">EXPLORE COLLECTION</span>
                     </div>
-
                 </section>
                 <section class="sub-slider-3">
                     <div class="content">
@@ -152,11 +177,8 @@
                             the traditionalists of
                             today
                         </p>
-                        <span class="content-2">EXPLORE COLLECTION</span><BR></BR>
-
-
+                        <span class="content-2">EXPLORE COLLECTION</span>
                     </div>
-
                 </section>
             </div>
             <div class="controls">
@@ -171,40 +193,51 @@
         </div>
     </div>
 
+
     <script>
         const slider = document.querySelector('.slider');
-        const leftArrow = document.querySelector('.left');
-        const rightArrow = document.querySelector('.right');
-        const indicatorParents = document.querySelector('.controls ul')
+        const indicatorParents = document.querySelector('.disk');
+        let sectionIndex = 0;
+        const slideWidth = 100 / 3;
 
-        var sectionIndex = 0;
+        function moveToSlide(index) {
+            sectionIndex = index;
+            document.querySelector('.controls .selected').classList.remove('selected');
+            indicatorParents.children[sectionIndex].classList.add('selected');
+            const translateValue = -sectionIndex * slideWidth;
+            slider.style.transform = `translateX(${translateValue}%)`;
+        }
 
+        function nextSlide() {
+            sectionIndex = (sectionIndex < 2) ? sectionIndex + 1 : 0;
+            moveToSlide(sectionIndex);
+        }
+
+        function prevSlide() {
+            sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 2;
+            moveToSlide(sectionIndex);
+        }
 
         document.querySelectorAll('.controls li').forEach(function (indicator, ind) {
             indicator.addEventListener("click", function () {
-                sectionIndex = ind;
-                document.querySelector('.controls .selected').classList.remove('selected');
-                indicator.classList.add("selected")
-                slider.style.transform = 'translate(' + (ind) * -33.44 + '%)';
+                moveToSlide(ind);
+            });
+        });
 
-            })
-        })
+        setInterval(nextSlide, 3000);
+
+        const leftArrow = document.querySelector('.left');
+        const rightArrow = document.querySelector('.right');
 
         leftArrow.addEventListener('click', function () {
-            sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 0;
-            document.querySelector('.controls .selected').classList.remove('selected');
-            indicatorParents.children[sectionIndex].classList.add('selected');
-            slider.style.transform = 'translate(' + (sectionIndex) * -33.44 + '%)';
+            prevSlide();
+        });
 
-        })
         rightArrow.addEventListener('click', function () {
-            sectionIndex = (sectionIndex < 2) ? sectionIndex + 1 : 2;
-            document.querySelector('.controls .selected').classList.remove('selected');
-            indicatorParents.children[sectionIndex].classList.add('selected');
-            slider.style.transform = 'translate(' + (sectionIndex) * -33.44 + '%)';
-
-        })
+            nextSlide();
+        });
     </script>
+
 </body>
 
 </html>

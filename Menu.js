@@ -1,5 +1,6 @@
 var menuBox = document.querySelector(".menu-box");
-        var dropDownButton = document.getElementById("drop-down");
+var dropDownButton = document.getElementById("drop-down");
+const overlay=document.getAnimations
 
         function onClickMenu() {
             var menu = document.getElementById("menu");
